@@ -238,6 +238,44 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- nvim-tree.lua is a lightweight, fast, and widely used file explorer for Neovim.
+  {
+    'nvim-tree/nvim-tree.lua',
+    version = '*',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+    config = function()
+      require('nvim-tree').setup {}
+      vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle File Explorer' })
+    end,
+  },
+
+  -- The following plugin should allow to yank to the windows clipboard
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup {
+        max_length = 0, -- Allow unlimited length
+        silent = false,
+        trim = false,
+      }
+
+      -- Override yank to also copy to OSC52
+      local function copy()
+        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+          require('osc52').copy_register ''
+        end
+      end
+
+      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+    end,
+  },
+
+  --------------------------------------------------------------------------
+  -- NOTE: The following plugins were auto installed by kickstart init.lua
+  -- -----------------------------------------------------------------------
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -677,8 +715,6 @@ require('lazy').setup({
         'gopls',
         'rust-analyzer',
         'pyright',
-        'black',
-        'isort',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -732,7 +768,6 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
         go = { 'gofmt' },
         rust = { 'rustfmt' },
         --
