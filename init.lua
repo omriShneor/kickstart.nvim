@@ -176,6 +176,7 @@ vim.keymap.set('n', '<C-c>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>cd', vim.diagnostic.open_float, { desc = '[C]ode [D]iagnostic Float' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -238,6 +239,25 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- neovim integration with github copilot
+  {
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    config = function()
+      require('copilot').setup {
+        suggestion = { enabled = false }, -- disable inline ghost text
+        panel = { enabled = false }, -- no panel UI
+      }
+    end,
+  },
+  {
+    'zbirenbaum/copilot-cmp',
+    dependencies = { 'copilot.lua' },
+    config = function()
+      require('copilot_cmp').setup()
+    end,
+  },
   -- nvim-tree.lua is a lightweight, fast, and widely used file explorer for Neovim.
   {
     'nvim-tree/nvim-tree.lua',
@@ -434,6 +454,13 @@ require('lazy').setup({
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
+        defaults = {
+          layout_config = {
+            horizontal = {
+              preview_width = 0.65, -- 60% of the screen for preview (default is ~0.5)
+            },
+          },
+        },
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
@@ -885,6 +912,7 @@ require('lazy').setup({
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
+          { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -957,7 +985,23 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'rust', 'python' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'go',
+        'rust',
+        'python',
+        'cue',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
