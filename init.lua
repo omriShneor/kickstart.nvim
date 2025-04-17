@@ -293,7 +293,28 @@ require('lazy').setup({
   -- Adding plugins
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  -- Adding plugins using a table
+  -- Adding plugins for Bicep, Cue, and .NET
+  {
+    'microsoft/bicep-vscode',
+    ft = 'bicep',
+    config = function()
+      -- Add any specific configuration for Bicep here
+    end,
+  },
+  {
+    'cue-lang/cue',
+    ft = 'cue',
+    config = function()
+      -- Add any specific configuration for Cue here
+    end,
+  },
+  {
+    'dotnet/aspnetcore',
+    ft = 'dotnet',
+    config = function()
+      -- Add any specific configuration for .NET here
+    end,
+  },
   -- Use `opts = {}` to force a plugin to be loaded.
 
   -- Here is a more advanced example where we pass configuration
