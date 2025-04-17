@@ -231,8 +231,7 @@ vim.opt.rtp:prepend(lazypath)
 -- To check the current status of your plugins, run :Lazy
 -- You can press `?` in this menu for help. Use `:q` to close the window
 -- To update plugins you can run :Lazy update
--- Key mapping to comment selected lines
-vim.api.nvim_set_keymap('v', '<leader>c', ':s/^/# /<CR>', { noremap = true, silent = true })
+-- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- neovim integration with github copilot
   {
@@ -267,25 +266,25 @@ require('lazy').setup({
   },
 
   -- Clipboard management
-  {
-    'ojroques/nvim-osc52',
-    config = function()
-      require('osc52').setup {
-        max_length = 0, -- Allow unlimited length
-        silent = false,
-        trim = false,
-      }
-
-      -- Override yank to also copy to OSC52
-      local function copy()
-        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-          require('osc52').copy_register ''
-        end
-      end
-
-      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
-    end,
-  },
+  --  {
+  --    'ojroques/nvim-osc52',
+  --    config = function()
+  --      require('osc52').setup {
+  --        max_length = 0, -- Allow unlimited length
+  --        silent = false,
+  --        trim = false,
+  --      }
+  --
+  --      -- Override yank to also copy to OSC52
+  --      local function copy()
+  --        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+  --          require('osc52').copy_register ''
+  --        end
+  --      end
+  --
+  --      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+  --    end,
+  --  },
 
   --------------------------------------------------------------------------
   -- NOTE: The following plugins were auto installed by kickstart init.lua
