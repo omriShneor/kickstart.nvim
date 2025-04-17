@@ -231,7 +231,8 @@ vim.opt.rtp:prepend(lazypath)
 -- To check the current status of your plugins, run :Lazy
 -- You can press `?` in this menu for help. Use `:q` to close the window
 -- To update plugins you can run :Lazy update
--- NOTE: Here is where you install your plugins.
+-- Key mapping to comment selected lines
+vim.api.nvim_set_keymap('v', '<leader>c', ':s/^/# /<CR>', { noremap = true, silent = true })
 require('lazy').setup({
   -- neovim integration with github copilot
   {
