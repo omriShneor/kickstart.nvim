@@ -231,7 +231,9 @@ vim.opt.rtp:prepend(lazypath)
 -- To check the current status of your plugins, run :Lazy
 -- You can press `?` in this menu for help. Use `:q` to close the window
 -- To update plugins you can run :Lazy update
--- NOTE: Here is where you install your plugins.
+-- Key mapping to split the window and switch to a specific buffer
+vim.keymap.set('n', '<leader>sh', ':split<CR><C-w>w', { desc = 'Split window horizontally and switch' })
+vim.keymap.set('n', '<leader>sv', ':vsplit<CR><C-w>w', { desc = 'Split window vertically and switch' })
 require('lazy').setup({
   -- neovim integration with github copilot
   {
