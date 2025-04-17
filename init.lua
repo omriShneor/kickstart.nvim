@@ -228,15 +228,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
+-- To check the current status of your plugins, run :Lazy
+-- You can press `?` in this menu for help. Use `:q` to close the window
+-- To update plugins you can run :Lazy update
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- neovim integration with github copilot
@@ -271,7 +265,7 @@ require('lazy').setup({
     end,
   },
 
-  -- The following plugin should allow to yank to the windows clipboard
+  -- Clipboard management
   {
     'ojroques/nvim-osc52',
     config = function()
@@ -294,17 +288,13 @@ require('lazy').setup({
 
   --------------------------------------------------------------------------
   -- NOTE: The following plugins were auto installed by kickstart init.lua
-  -- -----------------------------------------------------------------------
+  -- Auto-installed plugins
 
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- Adding plugins
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
+  -- Adding plugins using a table
   -- Use `opts = {}` to force a plugin to be loaded.
-  --
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
