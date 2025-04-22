@@ -282,7 +282,7 @@ require('lazy').setup({
     end,
   },
 
-  -- Clipboard management
+  --  Clipboard management
   --  {
   --    'ojroques/nvim-osc52',
   --    config = function()
@@ -802,7 +802,8 @@ require('lazy').setup({
         -- Conform can also run multiple formatters sequentially
         go = { 'gofmt' },
         rust = { 'rustfmt' },
-        --
+        xml = { 'xmllint' },
+        dotnet = { 'dotnet-format' },
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
