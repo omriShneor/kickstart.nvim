@@ -108,25 +108,35 @@ vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
+-- Don't show the mode, since it's already in the status line
+-- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
+
+function my_paste(reg)
+  return function(lines)
+    local content = vim.fn.getreg '"'
+    return vim.split(content, '\n')
+  end
+end
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
 
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
-    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
-  },
-}
+--vim.o.clipboard = 'unnamedplus'
+
+--vim.g.clipboard = {
+--  name = 'OSC 52',
+--  copy = {
+--    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+--    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+--  },
+--  paste = {
+--    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+--    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+--  },
+--}
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -234,7 +244,26 @@ vim.opt.rtp:prepend(lazypath)
 vim.keymap.set('n', '<leader>sh', ':split<CR><C-w>w', { desc = 'Split window horizontally and switch' })
 vim.keymap.set('n', '<leader>sv', ':vsplit<CR><C-w>w', { desc = 'Split window vertically and switch' })
 require('lazy').setup({
-  -- Adding plugins for Bicep, Cue, and .NET
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup {
+        max_length = 0,
+        silent = true,
+        trim = false,
+      }
+
+      -- Optional: auto copy to clipboard when using y
+      local function copy()
+        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+          require('osc52').copy_register ''
+        end
+      end
+
+      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+    end,
+  },
+  -- Adding plugins for Cue, and .NET
   {
     'cue-lang/cue',
     ft = 'cue',
@@ -281,28 +310,6 @@ require('lazy').setup({
     end,
   },
 
-  --  Clipboard management
-  {
-    'ojroques/nvim-osc52',
-    config = function()
-      require('osc52').setup {
-        max_length = 0, -- Allow unlimited length
-        silent = false,
-        trim = false,
-      }
-
-      -- Override yank to also copy to OSC52
-      local function copy()
-        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-          require('osc52').copy_register ''
-        end
-      end
-
-      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
-    end,
-  },
-
-  --------------------------------------------------------------------------
   -- NOTE: The following plugins were auto installed by kickstart init.lua
   -- Auto-installed plugins
 
