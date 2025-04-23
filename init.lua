@@ -78,7 +78,7 @@ Kickstart Guide:
 
 If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
 
-I hope you enjoy your Neovim journey,
+i hope you enjoy your neovim journey,
 - TJ
 
 P.S. You can delete this when you're done too. It's your config now! :)
@@ -114,20 +114,19 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
---vim.g.clipboard = {
---  name = 'OSC 52',
---  copy = {
---    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
---    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
---  },
---  paste = {
---    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
---    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
---  },
---}
+vim.o.clipboard = 'unnamedplus'
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+  },
+}
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -283,25 +282,25 @@ require('lazy').setup({
   },
 
   --  Clipboard management
-  --  {
-  --    'ojroques/nvim-osc52',
-  --    config = function()
-  --      require('osc52').setup {
-  --        max_length = 0, -- Allow unlimited length
-  --        silent = false,
-  --        trim = false,
-  --      }
-  --
-  --      -- Override yank to also copy to OSC52
-  --      local function copy()
-  --        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-  --          require('osc52').copy_register ''
-  --        end
-  --      end
-  --
-  --      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
-  --    end,
-  --  },
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup {
+        max_length = 0, -- Allow unlimited length
+        silent = false,
+        trim = false,
+      }
+
+      -- Override yank to also copy to OSC52
+      local function copy()
+        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+          require('osc52').copy_register ''
+        end
+      end
+
+      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+    end,
+  },
 
   --------------------------------------------------------------------------
   -- NOTE: The following plugins were auto installed by kickstart init.lua
